@@ -7,8 +7,9 @@
 
 namespace bfe = binary_feature_extractor;
 
-int main() {
+int main(int argc, char *argv[]) {
   bfe::PEFileExtractor pe;
-  LPBYTE base_addr = pe.LoadFile(std::string("./out/bin/extractor.ex"));
-  printf("%p\n", base_addr);
+  LPBYTE base_addr = pe.LoadFile(std::string(argv[1]));
+  printf("base_addr : %p\n", base_addr);
+  std::cout << pe.ToJson() << std::endl;
 }

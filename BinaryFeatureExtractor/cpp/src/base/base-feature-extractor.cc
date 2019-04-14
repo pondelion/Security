@@ -9,18 +9,11 @@ BaseFeatureExtractor::BaseFeatureExtractor(std::string const file_path)
 }
 
 BaseFeatureExtractor::~BaseFeatureExtractor() {
-  if (file_base_) {
-    UnmapViewOfFile(file_base_);
-  }
-  if (file_map_handle_) {
-    CloseHandle(file_map_handle_);
-  }
-  if (file_handle_) {
-    CloseHandle(file_handle_);
-  }
+  Release();
 }
 
 LPBYTE BaseFeatureExtractor::LoadFile(std::string const file_path) {
+  Release();
 
   basic_file_info_.file_path = file_path;
 
@@ -56,8 +49,22 @@ LPBYTE BaseFeatureExtractor::LoadFile(std::string const file_path) {
   );
 
   LoadFileHeader();
-
   return file_base_;
+}
+
+void BaseFeatureExtractor::Release() {
+  if (file_base_) {
+    UnmapViewOfFile(file_base_);
+    file_base_ = nullptr;
+  }
+  if (file_map_handle_) {
+    CloseHandle(file_map_handle_);
+    file_map_handle_ = nullptr;
+  }
+  if (file_handle_) {
+    CloseHandle(file_handle_);
+    file_handle_ = nullptr;
+  }
 }
 
 }
