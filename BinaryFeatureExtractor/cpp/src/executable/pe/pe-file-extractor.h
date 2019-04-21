@@ -2,6 +2,9 @@
 #define PE_FILE_EXTRACTOR_H_
 #include <iostream>
 #include <string>
+#include <sstream>
+#include <ctime>
+#include <iomanip>
 #include <optional>
 #include "nlohmann/json.hpp"
 #include "base/base-feature-extractor.h"
@@ -32,9 +35,11 @@ class PEFileExtractor : public BaseFeatureExtractor {
   void ParseThunkData32();
   json GetDosHeaderJson() const;
   json GetNTHeaderJson() const;
+  std::string ToTimeString(DWORD time_date_stamp) const;
 
  private:
-  PIMAGE_DOS_HEADER p_image_dos_header;
+  PIMAGE_DOS_HEADER p_image_dos_header_;
+  PIMAGE_NT_HEADERS32 p_image_nt_header_;
 };
 
 }
