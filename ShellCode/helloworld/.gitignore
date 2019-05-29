@@ -1,0 +1,5 @@
+*.o
+helloworld32
+shellcode32
+helloworld64
+shellcode64
