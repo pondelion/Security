@@ -1,0 +1,29 @@
+#include <iostream>
+#include <cstdlib>
+
+const char HELLOWOROLD_SHELLCODE[] = 
+    "\xeb\x1e"
+    "\xb8\x01\x00\x00\x00"
+    "\xbf\x01\x00\x00\x00"
+    "\x5e"
+    "\xba\x0f\x00\x00\x00"
+    "\x0f\x05"
+    "\xb8\x3c\x00\x00\x00"
+    "\xbf\x00\x00\x00\x00"
+    "\x0f\x05"
+    "\xe8\xdd\xff\xff\xff"
+    "\x48\x65\x6c\x6c\x6f\x2c\x20\x57\x6f\x72\x6c\x64\x21\x0d\x0a";
+
+
+int main() {
+  long a[5];
+  a[0] = 0;
+  a[1] = 2;
+  a[2] = 4;
+  a[3] = 6;
+  a[4] = 8;
+
+  *(&a[4] + 3) = (long)(HELLOWOROLD_SHELLCODE);
+
+  return 0;
+}
