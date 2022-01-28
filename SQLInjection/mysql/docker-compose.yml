@@ -1,0 +1,28 @@
+version: '3.3'
+
+services:
+  mysql_db:
+    image: mysql:8
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=testdb
+      - MYSQL_USER=test_user
+      - MYSQL_PASSWORD=password
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+    networks:
+      - sqlinjection_app_network
+
+  web_app:
+    build: ./webapp
+    restart: always
+    networks:
+      - sqlinjection_app_network
+    depends_on:
+      - mysql_db
+    ports:
+      - 8000:8000
+
+networks:
+  sqlinjection_app_network:
