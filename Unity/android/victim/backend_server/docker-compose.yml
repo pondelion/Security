@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  app-datastore:
+    image: busybox
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app-backend-network
+
+  app-db:
+    image: mysql:5.7
+    restart: always
+    env_file:
+      - .env
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./db_init:/docker-entrypoint-initdb.d
+    volumes_from:
+      - app-datastore
+    networks:
+      - app-backend-network
+
+  app-api-server:
+    build:
+      context: ./api_server
+    restart: always
+    ports:
+      - ${API_SERVER_PORT}:${API_SERVER_PORT}
+    env_file:
+      - .env
+    environment:
+      DB_DATABASE: ${MYSQL_DATABASE}
+      DB_USERNAME: ${MYSQL_USER}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+    depends_on:
+      - app-db
+    networks:
+      - app-backend-network
+
+networks:
+  app-backend-network:
