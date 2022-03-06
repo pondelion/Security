@@ -1,0 +1,6 @@
+
+
+export const config = {
+  DOMAIN: "*********.us.auth0.com",
+  CLIENT_ID: "ADsKFsdO38s8a9HAIS8233"
+}
