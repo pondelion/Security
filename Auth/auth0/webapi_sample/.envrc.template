@@ -1,0 +1,4 @@
+export AUTH0_DOMAIN=dev-******.us.auth0.com
+export AUDIENCE=https://dev-******..us.auth0.com/api/v2/
+export CLIENT_ID=*****
+export CLIENT_SECRET=******
