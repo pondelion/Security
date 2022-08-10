@@ -342,3 +342,14 @@ gdb-peda$ telescope 0x403330
 
 
 [ref] syokai security contest
+
+
+---
+
+- build
+
+```bash
+$ g++ link_map_got.c -z norelro -o link_map_got -ldl
+```
+
+norelro : disable RELocation Read-Only  
