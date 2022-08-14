@@ -353,3 +353,12 @@ $ g++ link_map_got.c -z norelro -o link_map_got -ldl
 ```
 
 norelro : disable RELocation Read-Only  
+
+
+---
+
+- build
+
+```bash
+$ env CC=/usr/bin/gcc go build link_map_got_go.go
+```

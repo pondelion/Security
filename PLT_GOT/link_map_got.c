@@ -1,6 +1,7 @@
 // #define _GNU_SOURCE
 #include <link.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <dlfcn.h>
 #include <string.h>
 
@@ -222,6 +223,7 @@ void printf_hook(const char *str) {
 }
 
 int main() {
+  atoi("1");
 
   void *printf_addr = NULL;
   printf_addr = find_function_addr_from_symbol("printf");
@@ -231,11 +233,37 @@ int main() {
 
   printf("%p\n", *((uint64_t *)printf_got_addr));
   // getchar();
-  *((uint64_t *)printf_got_addr) = (uint64_t)printf_hook;
+  // *((uint64_t *)printf_got_addr) = (uint64_t)printf_hook;
 
-  printf("%d\n", 50);
+  // printf("%d\n", 50);
 
-  printf("tes\n");
-  printf("%d\n", 50);
+  // printf("tes\n");
+  // printf("%d\n", 50);
+
+  puts("puts");
+
+  void *atoi_addr = NULL;
+  atoi_addr = find_function_addr_from_symbol("atoi");
+  void *atoi_got_addr = NULL;
+  atoi_got_addr = find_got_addr_from_symbol("atoi");
+
+  void *puts_addr = NULL;
+  puts_addr = find_function_addr_from_symbol("puts");
+  void *puts_got_addr = NULL;
+  puts_got_addr = find_got_addr_from_symbol("puts");
+
+  void *system_addr = NULL;
+  system_addr = find_function_addr_from_symbol("system");
+  void *system_got_addr = NULL;
+  system_got_addr = find_got_addr_from_symbol("system");
+
+  // *((uint64_t *)atoi_got_addr) = (uint64_t)puts_addr;
+  // ret2libc
+  *((uint64_t *)puts_got_addr) = (uint64_t)system_addr;
+
+  atoi("11");
+  puts("/bin/sh\x00");
+
+  printf("exit\n");
 }
 
